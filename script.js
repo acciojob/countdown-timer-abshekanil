@@ -14,6 +14,9 @@ function startCountdown(){
 		let currentTime = new Date();
 		let endTimeValue = new Date(currentTime.getTime() + numericValue * 60 * 1000);
 
+		let resultTime = endTimeValue.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+		endTime.innerHTML = resultTime;
+
 		function updateTimer()
 		{
 
@@ -36,8 +39,7 @@ function startCountdown(){
 		updateTimer();
 		let timerInterval = setInterval(updateTimer, 1000);
 
-		let resultTime = endTimeValue.tolocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-		endTime.innerHTML = resultTime;
+		
 	}
 }
 
