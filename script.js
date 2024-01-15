@@ -1,51 +1,46 @@
-// Your script here.
+const countDownDisplay=document.querySelector("#countDown");
 
+const endTimeDisplay=document.querySelector("#endTime");
 
-function startCountdown(){
-	let inputUser = document.getElementById('userInput').value;
+document.querySelector("button").addEventListener("click",()=>{
 
-	let numericValue = parseFloat(inputUser);
+let countDownTime=document.querySelector("input").value;
 
-	if(!isNaN(numericValue) && numericValue > 0)
-	{
-		let endTime = document.getElementById('endTime');
-		let countDown = document.getElementById('countDown');
+let currDate=new Date();
 
-		let currentTime = new Date();
-		let endTimeValue = new Date(currentTime.getTime() + numericValue * 60 * 1000);
+let endTime=addMinutes(currDate,Number(countDownTime));
 
-		let resultTime = endTimeValue.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-		endTime.innerHTML = resultTime;
+console.log(endTime);
 
-		function updateTimer()
-		{
+countDownDisplay.textContent=currDate.toLocaleTimeString();
 
-			let remainingTime = endTimeValue - new Date();
+endTimeDisplay.textContent=formatEndTime(endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
 
-			if(remainingTime <= 0)
-			{
-				clearInterval(timerInterval);
-				countDown.innerHTML = 'Countdown ended!'
-			}
-			else
-			{
-				let minutes = Math.floor(remainingTime/(60 * 1000));
-				let seconds = Math.floor((remainingTime % (60 * 1000))/1000);
-				
-				countDown.innerHTML = `${minutes}m ${seconds}s`;
-			}
-			
-		}
-		updateTimer();
-		let timerInterval = setInterval(updateTimer, 1000);
+endTime=endTime.toLocaleTimeString();
 
-		
-	}
+let displayTime = setInterval(()=>{
+
+    let currTime = new Date().toLocaleTimeString();
+
+    countDownDisplay.textContent=currTime;
+
+    if( currTime==endTime) clearInterval(displayTime);
+
+},1000)
+})
+
+const addMinutes=(date,mins)=>{
+
+date.setMinutes(date.getMinutes()+mins);
+
+return date;
 }
 
+const formatEndTime=(timeString)=>{
 
+const [hours, minutes, meridiem] = timeString.split(/:| /);
 
+const formattedTimeString = `${parseInt(hours, 10)}:${minutes} ${meridiem}`;
 
-
-
-
+return formattedTimeString;
+}
